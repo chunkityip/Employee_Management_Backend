@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="12/28/2024" author="ck">
+        <createTable tableName="employee">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="firstname" type="VARCHAR(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="lastname" type="VARCHAR(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="password" type="VARCHAR(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="dob" type="DATE"/>
+            <column name="phone" type="BIGINT">
+                <constraints unique="true"/>
+            </column>
+            <column name="email" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="experience" type="INT"/>
+            <column name="domain" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="12/29/2024" author="ck">
+        <createTable tableName="user">
+            <column name="username" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="password" type="VARCHAR(100)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
