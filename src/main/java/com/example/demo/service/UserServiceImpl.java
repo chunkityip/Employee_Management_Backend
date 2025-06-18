@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(UserDto user) {
-        validateUser(user);
+        checkUser(user);
         if (userDao.existsByUsername(user.getUserName())) {
             throw new DuplicateUsernameException("Username already exists: " + user.getUserName());
         }
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
                 .orElse(false);
     }
 
-    private void validateUser(UserDto user) {
+    private void checkUser(UserDto user) {
         if (user.getUserName() == null || user.getUserName().trim().isEmpty()) {
             throw new ValidationException("Username cannot be empty");
         }

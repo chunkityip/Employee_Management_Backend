@@ -48,8 +48,27 @@ public class UserController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    // ADD THIS NEW LOGIN ENDPOINT
+    @Operation(summary = "User login", description = "Authenticate user credentials for login")
+    @PostMapping("/login")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<Boolean> loginUser(
+            @Parameter(description = "User credentials for login", required = true)
+            @RequestBody UserDto user) {
+        try {
+            System.out.println("Login attempt for user: " + user.getUserName()); // Debug log
+            boolean isValid = userService.validateUser(user.getUserName(), user.getPassword());
+            System.out.println("Login result: " + isValid); // Debug log
+            return new ResponseEntity<>(isValid, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Login error: " + e.getMessage());
+            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Operation(summary = "Validate user credentials", description = "Validate user credentials")
     @PostMapping("/validate")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Boolean> validateUser(
             @Parameter(description = "User credentials to validate", required = true)
             @RequestBody UserDto user) {
