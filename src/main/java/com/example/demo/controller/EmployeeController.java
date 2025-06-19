@@ -83,16 +83,8 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.existsByEmail(email), HttpStatus.OK);
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<Boolean> login(@RequestBody Map<String, String> credentials) {
-//        String email = credentials.get("email");
-//        String password = credentials.get("password");
-//
-//        Optional<EmployeeDto> employee = employeeService.findByEmail(email);
-//        if (employee.isPresent() && employee.get().getPassword().equals(password)) {
-//            return ResponseEntity.ok(true);
-//        }
-//        return ResponseEntity.ok(false);
-//    }
-
+    @GetMapping("/getAllEmployees")
+    public List<EmployeeDto> findAllEmployees() {
+        return employeeService.getAllEmployees();
+    }
 }

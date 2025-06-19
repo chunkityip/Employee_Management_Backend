@@ -20,9 +20,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeDao employeeDao;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
     @Override
     public void createEmployee(EmployeeDto employee) {
         validateEmployee(employee);
@@ -73,6 +70,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDao.existsByEmail(email);
     }
 
+    @Override
+    public List<EmployeeDto> getAllEmployees() {
+        return employeeDao.findAllEmployees();
+    }
+
     private void validateEmployee(EmployeeDto employee) {
         if (employee.getFirstname() == null || employee.getFirstname().trim().isEmpty()) {
             throw new ValidationException("Firstname cannot be empty");
@@ -87,4 +89,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new ValidationException("Password must be at least 8 characters");
         }
     }
+
+
 }

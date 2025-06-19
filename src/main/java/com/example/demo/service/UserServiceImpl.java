@@ -19,9 +19,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
     @Override
     public void createUser(UserDto user) {
         checkUser(user);

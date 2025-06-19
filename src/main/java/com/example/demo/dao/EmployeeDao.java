@@ -22,4 +22,6 @@ public interface EmployeeDao {
 
     void deleteByEmail(String email);
 
+    List<EmployeeDto> findAllEmployees();
+
 }
