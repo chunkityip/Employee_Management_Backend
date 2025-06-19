@@ -66,15 +66,15 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Validate user credentials", description = "Validate user credentials")
-    @PostMapping("/validate")
-    @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<Boolean> validateUser(
-            @Parameter(description = "User credentials to validate", required = true)
-            @RequestBody UserDto user) {
-        boolean isValid = userService.validateUser(user.getUserName(), user.getPassword());
-        return new ResponseEntity<>(isValid, HttpStatus.OK);
-    }
+//    @Operation(summary = "Validate user credentials", description = "Validate user credentials")
+//    @PostMapping("/validate")
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    public ResponseEntity<Boolean> validateUser(
+//            @Parameter(description = "User credentials to validate", required = true)
+//            @RequestBody UserDto user) {
+//        boolean isValid = userService.validateUser(user.getUserName(), user.getPassword());
+//        return new ResponseEntity<>(isValid, HttpStatus.OK);
+//    }
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<String> handleExceptions(Exception e) {

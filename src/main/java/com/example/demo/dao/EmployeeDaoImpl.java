@@ -139,4 +139,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
             throw new EmptyResultDataAccessException(1);
         }
     }
+
+    @Override
+    public List<EmployeeDto> findAllEmployees() {
+        String sql = "SELECT * FROM employee ORDER BY id";
+
+        return namedParameterJdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper<>(EmployeeDto.class)
+        );
+    }
 }

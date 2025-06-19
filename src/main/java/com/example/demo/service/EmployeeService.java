@@ -17,4 +17,5 @@ public interface EmployeeService {
     List<EmployeeDto> searchByFirstname(String firstname);
     List<EmployeeDto> findByExperience(int experience);
     boolean existsByEmail(String email);
+    List<EmployeeDto> getAllEmployees();
 }
