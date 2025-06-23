@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
                 .orElse(false);
     }
 
-    private void checkUser(UserDto user) {
+    private void checkUser(UserDto user) throws ValidationException {
         if (user.getUserName() == null || user.getUserName().trim().isEmpty()) {
             throw new ValidationException("Username cannot be empty");
         }
