@@ -1,326 +1,162 @@
-# Employee Dashboard Backend
+# Employee Management System - Backend
 
-A comprehensive employee management system built with Spring Boot, PostgreSQL, and Angular integration.
+A Spring Boot REST API application for managing employee data with authentication and CRUD operations.
 
-## Table of Contents
+## 🚀 Technologies Used
 
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Quick Start](#quick-start)
-- [API Documentation](#api-documentation)
-- [Database Setup](#database-setup)
-- [Configuration](#configuration)
-- [Development](#development)
-- [Testing](#testing)
+- **Java 17** (or your version)
+- **Spring Boot 3.x**
+- **Spring Data JDBC**
+- **PostgreSQL** Database
+- **Gradle** - Dependency Management
+- **Swagger/OpenAPI** - API Documentation
+- **Lombok** - Reduce boilerplate code
 
-## Overview
+## 📋 Prerequisites
 
-The Employee Dashboard Backend provides a robust API for managing employees, administrators, and organizational data. It features role-based access control, secure authentication, and comprehensive employee management capabilities.
+Before running this application, make sure you have the following installed:
 
-### Key Capabilities
+- Java JDK 17 or higher
+- Maven 3.6 or higher
+- Docker Desktop
+- DBeaver(Opinional)
+- Your preferred IDE (IntelliJ IDEA, Eclipse, VS Code)
 
-- Secure authentication system (no Spring Security dependency)
-- Multi-role user management (Admin, HR, Manager, Developer, DevOps)
-- Employee CRUD operations with advanced filtering
-- Role-based permissions and entitlements
-- Performance optimized with connection pooling
-- Enterprise-grade logging and error handling
-
-## Features
-
-### Authentication & Security
-
-- [x] Simple username/password authentication
-- [x] Session token management
-- [x] Role-based access control
-- [x] User session validation
-- [ ] Password encryption (planned)
-- [ ] Multi-factor authentication (planned)
-
-### Employee Management
-
-- [x] Admin user management
-- [ ] Employee CRUD operations (in progress)
-- [ ] Department management
-- [ ] Role assignment
-- [ ] Bulk employee import
-- [ ] Employee search and filtering
-
-## Tech Stack
-
-### Backend
-
-- **Framework:** Spring Boot 3.5.0
-- **Language:** Java 17
-- **Database:** PostgreSQL 
-- **ORM:** Spring Data JDBC
-- **Migration:** Liquibase
-- **Build Tool:** Gradle (Kotlin DSL)
-- **Logging:** SLF4J + Logback
-
-### Database
-
-- **Primary DB:** PostgreSQL
-- **Connection Pool:** HikariCP
-- **Schema Management:** Liquibase migrations
-
-## Quick Start
-
-### Prerequisites
-
-- Java 17 or higher
-- PostgreSQL 12 or higher
-- Gradle 8.5 or higher (or use wrapper)
+## 🛠️ Installation & Setup
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/employee-dashboard-backend.git
-cd employee-dashboard-backend
+git clone <your-repository-url>
+cd employee-management-backend
 ```
 
-### 2. Database Setup
+### 2. Configure Database
 
-```sql
--- Create database
-CREATE DATABASE employee_dashboard_db;
-
--- Create user (optional)
-CREATE USER app_user WITH PASSWORD '12345';
-GRANT ALL PRIVILEGES ON DATABASE employee_dashboard_db TO app_user;
-```
-
-### 3. Configuration
-
-Update `src/main/resources/application.properties`:
+Update the `src/main/resources/application.properties` file with your database credentials:
 
 ```properties
-# Database configuration
-spring.datasource.url=jdbc:postgresql://localhost:5432/employee_dashboard_db
-spring.datasource.username=user
-spring.datasource.password=12345
-```
+#Database Configuration
+spring.datasource.url=jdbc:db2://localhost:50000/your_database_name
+spring.datasource.username=your_username
+spring.datasource.password=your_password
 
-### 4. Run the Application
+# JPA/Hibernate Properties
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
 
-```bash
-# Using Gradle wrapper
-./gradlew bootRun
-
-# Or using your installed Gradle
-gradle bootRun
-```
-
-### 5. Verify Installation
-
-```bash
-# Health check
-curl http://localhost:8080/api/admin/getCurrentAdmin
-
-# Expected response: Admin user data or 404 if no admin exists
-```
-
-## API Documentation
-
-### Base URL
-
-```
-http://localhost:8080/api
-```
-
-### Authentication Endpoints
-
-#### Login
-
-```http
-POST /api/auth/login
-Content-Type: application/json
-
-{
-    "username": "yx1214@gmail.com",
-    "password": "ck"
-}
-```
-
-**Response:**
-
-```json
-{
-    "success": true,
-    "message": "Login successful",
-    "sessionToken": "abc123-def456-789xyz",
-    "userInfo": {
-        "id": 1,
-        "username": "yx1214@gmail.com",
-        "email": "yx1214@gmail.com",
-        "firstName": "ck",
-        "lastName": "yp",
-        "role": "ADMIN",
-        "active": true
-    }
-}
-```
-
-#### Get Current User
-
-```http
-GET /api/auth/current-user
-Authorization: Bearer {sessionToken}
-```
-
-#### Logout
-
-```http
-POST /api/auth/logout
-Authorization: Bearer {sessionToken}
-```
-
-### Response Format
-
-All API responses follow this consistent format:
-
-```json
-{
-    "success": boolean,
-    "message": "string",
-    "data": object | null
-}
-```
-
-## Database Setup
-
-### Automatic Setup
-
-The application uses Liquibase for automatic database schema management. On first run, it will:
-
-1. Create all necessary tables
-2. Set up indexes and constraints
-3. Insert sample data (if configured)
-
-### Sample Data
-
-```sql
--- Sample admin user for testing
-INSERT INTO admin (username, password, email, "firstName", "lastName", active, role, entitlements)
-VALUES ('yx1214@gmail.com', 'ck', 'yx1214@gmail.com', 'ck', 'yp', true, 'ADMIN', 'ADMIN');
-```
-
-## Configuration
-
-### Application Properties
-
-```properties
-# Server configuration
+# Server Configuration
 server.port=8080
-
-# Database configuration
-spring.datasource.url=jdbc:postgresql://localhost:5432/employee_dashboard_db
-spring.datasource.username=user
-spring.datasource.password=12345
-spring.datasource.driver-class-name=org.postgresql.Driver
-
-# Connection pool settings
-spring.datasource.hikari.maximum-pool-size=20
-spring.datasource.hikari.minimum-idle=5
-
-# Liquibase configuration
-spring.liquibase.change-log=classpath:employee-dashboard-db/liquibase/changelog/db.changelog-master.xml
-spring.liquibase.enabled=true
-
-# Logging configuration
-logging.level.employee_management=DEBUG
-logging.level.org.springframework.web=DEBUG
 ```
 
-## Development
+### 3. Create Database Tables
 
-### Project Structure
+Please look at docker-compose.yml, look/edit the settings and run 
+```
+docker-compose up
 
 ```
-src/main/java/employee_management/
-├── controller/          # REST controllers
-├── service/            # Business logic
-├── dao/               # Data access layer
-├── dto/               # Data transfer objects
-│   └── auth/          # Authentication DTOs
-├── domain/            # Domain models
-│   ├── model/         # Entity classes
-│   └── enums/         # Business enums
-└── config/            # Configuration classes
 
-src/main/resources/
-├── application.properties
-└── employee-dashboard-db/
-    └── liquibase/
-        └── changelog/  # Database migrations
-```
 
-### Code Style
-
-- Use Java 17 features
-- Follow Spring Boot conventions
-- Use Lombok for reducing boilerplate
-- Implement comprehensive logging
-- Write meaningful commit messages
-
-## Testing
-
-### Manual Testing with Postman
-
-Test scenarios:
-
-1. **Authentication Flow:**
-   - Login with valid credentials
-   - Access protected endpoints
-   - Logout and verify session invalidation
-
-2. **Error Handling:**
-   - Invalid credentials
-   - Expired sessions
-   - Malformed requests
-
-### Database Testing
-
-```sql
--- Verify admin table
-SELECT * FROM admin;
-
--- Check database connections
-SELECT count(*) FROM admin WHERE active = true;
-```
-
-## Deployment
-
-### Local Development
+### 4. Build the Application
 
 ```bash
-./gradlew bootRun
+mvn clean install
 ```
 
-### Production Build
+## 🏃‍♂️ Running the Application
 
+1. Open the project in your IDE
+2. Navigate to `src/main/java/com/example/demo/DemoApplication.java`
+3. Right-click and select "Run 'DemoApplication'"
+
+## 📡 API Endpoints
+
+Once the application is running, you can access:
+
+- **Application**: http://localhost:8080
+- **Swagger UI**: http://localhost:8080/swagger-ui.html
+- **API Docs**: http://localhost:8080/v3/api-docs
+
+### Main Endpoints:
+
+#### Authentication
+- `POST /api/v1/users/register` - Register new user
+- `POST /api/v1/users/login` - User login
+- `GET /api/v1/users/{username}` - Get user details
+- `PUT /api/v1/users/{username}/password` - Update password
+
+#### Employee Management
+- `GET /api/v1/employees/getAllEmployees` - Get all employees
+- `GET /api/v1/employees/{email}` - Get employee by email
+- `POST /api/v1/employees` - Create new employee
+- `PUT /api/v1/employees` - Update employee
+- `DELETE /api/v1/employees/{email}` - Delete employee
+- `GET /api/v1/employees/search/firstname/{firstname}` - Search by firstname
+- `GET /api/v1/employees/search/experience/{experience}` - Find by experience
+- `GET /api/v1/employees/exists/{email}` - Check if email exists
+
+## 🧪 Testing the API
+
+### Using Postman or curl:
+
+1. **Register a new user:**
 ```bash
-# Build JAR
-./gradlew build
-
-# Run JAR
-java -jar build/libs/employee-management-0.0.1-SNAPSHOT.jar
+curl -X POST http://localhost:8080/api/v1/users/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "userName": "john.doe@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "password": "password123",
+    "dateOfBirth": "1990-01-01",
+    "mobileNumber": 1234567890,
+    "domain": "backend",
+    "experience": 5
+  }'
 ```
 
-## Project Status
+2. **Login:**
+```bash
+curl -X POST http://localhost:8080/api/v1/users/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "userName": "john.doe@example.com",
+    "password": "password123"
+  }'
+```
 
-- ✅ **Authentication System** - Complete
-- ✅ **Admin Management** - Complete  
-- 🚧 **Employee CRUD** - In Progress
-- 📋 **Role Management** - Planned
-- 📋 **Department Management** - Planned
-- 📋 **Reporting System** - Planned
+## 📦 Project Structure
 
-**Current Version:** 0.1.0-SNAPSHOT  
-**Last Updated:** May 31, 2025
+```
+src/
+├── main/
+│   ├── java/com/example/demo/
+│   │   ├── controller/       # REST Controllers
+│   │   ├── service/          # Business Logic
+│   │   ├── dao/              # Data Access Layer
+│   │   ├── dto/              # Data Transfer Objects
+│   │   ├── exception/        # Custom Exceptions
+│   │   └── DemoApplication.java
+│   └── resources/
+│       ├── application.properties
+│       └── data.sql          # Initial data (if any)
+└── test/                     # Unit and Integration tests
+```
 
+## 🤝 Contributing
 
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Swagger Page:
-http://localhost:8080/swagger-ui/index.html
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 👥 Authors
+
+- Chunkit Yip (CK) - Initial work
