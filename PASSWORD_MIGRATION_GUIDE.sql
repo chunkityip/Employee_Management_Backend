@@ -1,0 +1,36 @@
+-- IMPORTANT: Password Migration Guide
+--
+-- If you have existing users in the database with plain text passwords,
+-- you need to rehash them using BCrypt before they can log in.
+--
+-- Option 1: Delete existing users and create new ones (simplest for testing)
+-- DELETE FROM user;
+--
+-- Option 2: Manually update each user's password with a BCrypt hash
+-- You can generate BCrypt hashes using an online tool or run the Java code below:
+--
+-- Java code to generate BCrypt hash (run in your IDE or create a utility):
+-- import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+-- public class PasswordHashGenerator {
+--     public static void main(String[] args) {
+--         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+--         String plainPassword = "yourPasswordHere";
+--         String hashedPassword = encoder.encode(plainPassword);
+--         System.out.println("Hashed: " + hashedPassword);
+--         // Copy the hash and use in UPDATE statement below
+--     }
+-- }
+--
+-- Then run:
+-- UPDATE user SET password = '$2a$10$...[full bcrypt hash]...' WHERE username = 'hrtest1@gmail.com';
+--
+-- Option 3: Create a fresh test user
+-- The application will automatically hash the password when creating new users via the /api/v1/users/register endpoint
+-- Simply call the register endpoint with:
+-- POST /api/v1/users/register
+-- {
+--   "userName": "testuser@example.com",
+--   "password": "testPassword123"
+-- }
+-- Then login with the same credentials.
+
