@@ -85,7 +85,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee.getEmail() == null || !employee.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             throw new ValidationException("Invalid email format");
         }
-        if (employee.getPassword() == null || employee.getPassword().length() < 8) {
+
+        if (employee.getPassword() != null && !employee.getPassword().trim().isEmpty()
+                && employee.getPassword().length() < 8) {
             throw new ValidationException("Password must be at least 8 characters");
         }
     }
