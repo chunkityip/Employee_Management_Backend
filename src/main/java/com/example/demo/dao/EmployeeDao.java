@@ -9,12 +9,13 @@ public interface EmployeeDao {
 
     boolean existsByEmail(String email);
 
-    Optional<EmployeeDto> findByEmail(String email);  // Change return type
+    Optional<EmployeeDto> findByEmail(String email);
 
-    //Changing List to Optional
     List<EmployeeDto> findByFirstnameStartingWith(String firstname);
 
     List<EmployeeDto> findByExperience(int experience);
+
+    List<EmployeeDto> findByDomain(String domain);
 
     void insertEmployee(EmployeeDto employee);
 
@@ -23,5 +24,4 @@ public interface EmployeeDao {
     void deleteByEmail(String email);
 
     List<EmployeeDto> findAllEmployees();
-
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.DomainDto;
 import com.example.demo.dto.EmployeeDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,8 @@ public interface EmployeeService {
     Optional<EmployeeDto> findByEmail(String email);
     List<EmployeeDto> searchByFirstname(String firstname);
     List<EmployeeDto> findByExperience(int experience);
+    List<EmployeeDto> findByDomain(String domain);
     boolean existsByEmail(String email);
     List<EmployeeDto> getAllEmployees();
+    List<DomainDto> getAllDomains();
 }

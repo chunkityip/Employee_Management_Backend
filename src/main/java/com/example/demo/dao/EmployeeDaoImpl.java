@@ -9,9 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -47,7 +45,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
         }
     }
 
-
     @Override
     public List<EmployeeDto> findByFirstnameStartingWith(String firstname) {
         String sql = "SELECT * FROM employee WHERE firstname LIKE :firstname";
@@ -76,8 +73,19 @@ public class EmployeeDaoImpl implements EmployeeDao {
         );
     }
 
+    @Override
+    public List<EmployeeDto> findByDomain(String domain) {
+        String sql = "SELECT * FROM employee WHERE domain = :domain";
 
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("domain", domain);
 
+        return namedParameterJdbcTemplate.query(
+                sql,
+                params,
+                new BeanPropertyRowMapper<>(EmployeeDto.class)
+        );
+    }
 
     @Override
     public void insertEmployee(EmployeeDto employee) {

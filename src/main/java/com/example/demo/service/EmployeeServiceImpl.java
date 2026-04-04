@@ -1,12 +1,13 @@
 package com.example.demo.service;
 
+import com.example.demo.dao.DomainDao;
 import com.example.demo.dao.EmployeeDao;
+import com.example.demo.dto.DomainDto;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.exception.DuplicateEmailException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeDao employeeDao;
+
+    @Autowired
+    private DomainDao domainDao;
 
     @Override
     public void createEmployee(EmployeeDto employee) {
@@ -66,6 +70,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<EmployeeDto> findByDomain(String domain) {
+        return employeeDao.findByDomain(domain);
+    }
+
+    @Override
     public boolean existsByEmail(String email) {
         return employeeDao.existsByEmail(email);
     }
@@ -73,6 +82,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeDto> getAllEmployees() {
         return employeeDao.findAllEmployees();
+    }
+
+    @Override
+    public List<DomainDto> getAllDomains() {
+        return domainDao.findAllDomains();
     }
 
     private void validateEmployee(EmployeeDto employee) {
@@ -91,6 +105,4 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new ValidationException("Password must be at least 8 characters");
         }
     }
-
-
 }

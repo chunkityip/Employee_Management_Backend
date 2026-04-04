@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.DomainDto;
 import com.example.demo.dto.EmployeeDto;
 import com.example.demo.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Tag(name = "Employee Management", description = "Endpoints for managing employee information")
 @RestController
@@ -24,21 +23,21 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @Operation(summary = "Create a new employee" , description = "Create a new employee")
+    @Operation(summary = "Create a new employee", description = "Create a new employee")
     @PostMapping
     public ResponseEntity<Void> createEmployee(@Valid @RequestBody EmployeeDto employee) {
         employeeService.createEmployee(employee);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update existing employee" , description = "Update existing employee information")
+    @Operation(summary = "Update existing employee", description = "Update existing employee information")
     @PutMapping
     public ResponseEntity<Void> updateEmployee(@Valid @RequestBody EmployeeDto employee) {
         employeeService.updateEmployee(employee);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete employee by email" , description = "Delete employee by email")
+    @Operation(summary = "Delete employee by email", description = "Delete employee by email")
     @DeleteMapping("/{email}")
     public ResponseEntity<Void> deleteEmployee(
             @Parameter(description = "Email of employee to delete", required = true)
@@ -47,7 +46,7 @@ public class EmployeeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "Find employee by email" , description = "Find employee by exact email match")
+    @Operation(summary = "Find employee by email", description = "Find employee by exact email match")
     @GetMapping("/{email}")
     public ResponseEntity<EmployeeDto> findByEmail(
             @Parameter(description = "Email of employee to find", required = true)
@@ -57,7 +56,7 @@ public class EmployeeController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @Operation(summary = "Search employees by firstname pattern" , description = "Search employees by firstname pattern")
+    @Operation(summary = "Search employees by firstname pattern", description = "Search employees by firstname pattern")
     @GetMapping("/search/firstname/{firstname}")
     public ResponseEntity<List<EmployeeDto>> searchByFirstname(
             @Parameter(description = "Firstname pattern to search", required = true)
@@ -66,7 +65,7 @@ public class EmployeeController {
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-    @Operation(summary = "Find employees by experience" , description = "Find employees by years of experience")
+    @Operation(summary = "Find employees by experience", description = "Find employees by years of experience")
     @GetMapping("/search/experience/{experience}")
     public ResponseEntity<List<EmployeeDto>> findByExperience(
             @Parameter(description = "Years of experience to search", required = true)
@@ -75,7 +74,16 @@ public class EmployeeController {
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-    @Operation(summary = "Check if email exists" , description = "Check if email exists")
+    @Operation(summary = "Find employees by domain", description = "Find employees by domain name")
+    @GetMapping("/search/domain/{domain}")
+    public ResponseEntity<List<EmployeeDto>> findByDomain(
+            @Parameter(description = "Domain to search", required = true)
+            @PathVariable String domain) {
+        List<EmployeeDto> employees = employeeService.findByDomain(domain);
+        return new ResponseEntity<>(employees, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Check if email exists", description = "Check if email exists")
     @GetMapping("/exists/{email}")
     public ResponseEntity<Boolean> existsByEmail(
             @Parameter(description = "Email to check", required = true)
@@ -83,8 +91,16 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.existsByEmail(email), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get all employees", description = "Get all employees")
     @GetMapping("/getAllEmployees")
     public List<EmployeeDto> findAllEmployees() {
         return employeeService.getAllEmployees();
+    }
+
+    @Operation(summary = "Get all domains", description = "Get all available domains for dropdown")
+    @GetMapping("/domains")
+    public ResponseEntity<List<DomainDto>> getAllDomains() {
+        List<DomainDto> domains = employeeService.getAllDomains();
+        return new ResponseEntity<>(domains, HttpStatus.OK);
     }
 }

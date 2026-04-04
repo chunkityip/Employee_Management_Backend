@@ -41,4 +41,31 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="04/04/2026" author="ck">
+        <createTable tableName="employeedomain">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <insert tableName="employeedomain">
+            <column name="name" value="Backend"/>
+        </insert>
+        <insert tableName="employeedomain">
+            <column name="name" value="Frontend"/>
+        </insert>
+        <insert tableName="employeedomain">
+            <column name="name" value="Fullstack"/>
+        </insert>
+        <insert tableName="employeedomain">
+            <column name="name" value="DevOps"/>
+        </insert>
+        <insert tableName="employeedomain">
+            <column name="name" value="QA"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>
